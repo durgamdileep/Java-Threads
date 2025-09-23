@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Question_5_Wait" />
+        <module name="Question_5" />
+        <module name="Question_7" />
+        <module name="Question_1" />
+        <module name="Question_2" />
+        <module name="Callable_Interface" />
+        <module name="Runnable_Interface" />
+        <module name="Question_4" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
