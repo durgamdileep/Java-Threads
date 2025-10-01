@@ -59,3 +59,64 @@ Answer: When a thread is waiting (using wait(), join(), or blocking queue method
 it can be interrupted by another thread calling its interrupt() method.  
 This causes an InterruptedException to be thrown, allowing the waiting thread to handle the interruption.  
 Proper handling involves either re-interrupting the thread or propagating the exception.
+
+---
+
+# 🧵 Java Threading: join(), wait(), and yield()
+
+---
+
+## 🔍 1. `join()` – Does Not Release Locks
+
+### How it works:
+
+When you call `thread.join()`, the current thread pauses until the thread is finished.
+
+But if you're holding a lock (synchronized block or method) while calling `join()`, you continue to hold the lock during the wait.
+
+🚫 That means:
+
+- Other threads trying to access that same lock will be blocked.
+- Can lead to deadlocks or performance issues if used carelessly inside synchronized code.
+
+---
+
+## 🔍 2. `wait()` – Releases Lock
+
+- `wait()` is called on an object you're synchronizing on.
+- When a thread calls `wait()`, it:
+
+  ✅ Releases the lock on that object  
+  ⏳ Waits until it's notified (`notify()` or `notifyAll()`)  
+  🔒 Reacquires the lock before resuming
+
+✅ That makes it safe for communication between threads.
+
+---
+
+## 🧰 `Thread.yield()` 
+
+### 🔧 Behavior:
+
+It tells the thread scheduler:
+
+> “I'm okay stepping aside for a bit. If any other threads of the same or higher priority are waiting, let them run.”
+
+But:
+
+- ❌ It does **NOT** stop the thread permanently.
+- ❌ It does **NOT** release any locks.
+- 💡 It’s just a hint — the scheduler **may ignore it completely**.
+
+---
+
+## 🕰️ How long does a thread wait when using `yield()`?
+
+- 🔸 There is no fixed time.
+- 🔸 `Thread.yield()` just hints to the JVM that the current thread is willing to give up the CPU temporarily, but:
+
+  - ⏱️ It may resume immediately  
+  - ⏱️ It may resume after a short pause  
+  - ❓ It may not yield at all  
+
+---
