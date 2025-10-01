@@ -116,3 +116,54 @@ It is used when you need advanced control over locking 🧠 (e.g., trying to acq
 • With tryLock(long time, TimeUnit unit), Task‑B can attempt to acquire the lock but proceed (or take alternate action) if it's not available within a specified timeout. ⏱️
 
 • Offers greater flexibility and control over lock acquisition and release. 🎛️
+
+---
+
+# 🔐 Locking in Java Concurrency
+
+When working with multithreading in Java, understanding how different locking methods behave is crucial — especially when it comes to **interruption handling**.
+
+---
+
+## ❌ `lock()` - Cannot Be Interrupted
+
+- 🚫 **Cannot be interrupted** while waiting for the lock.
+- 🕰️ Causes the thread to **wait indefinitely**.
+- 🔁 Thread remains **stuck in the queue** if the lock is never released.
+- 🧱 This can lead to **deadlocks** or unresponsive systems.
+
+> ⚠️ Use with caution when thread interruption or responsiveness is important.
+
+---
+
+## ✅ `lockInterruptibly()` / `tryLock()` - Can Be Interrupted
+
+### `lockInterruptibly()`
+- 🟢 **Can be interrupted** while waiting for the lock.
+- 💥 If the thread is interrupted while waiting, it **throws `InterruptedException`**.
+- 🔄 Enables responsive systems by allowing a thread to **back out gracefully**.
+
+### `tryLock()`
+- ⏳ **Tries to acquire the lock** within a timeout (optional).
+- ✅ If lock is available → acquires it.
+- ❌ If not → either returns `false` or throws an exception (if interrupted).
+- 🕵️ Useful for **avoiding deadlocks** and improving responsiveness.
+
+---
+
+## 🔄 Summary Table
+
+| Method               | Interruptible | Waits Indefinitely | Timeout Support | Notes                         |
+|----------------------|---------------|---------------------|------------------|-------------------------------|
+| `lock()`             | ❌ No         | ✅ Yes              | ❌ No           | Not responsive to interruption |
+| `lockInterruptibly()`| ✅ Yes        | ✅ Yes              | ❌ No           | Responsive to interruption     |
+| `tryLock()`          | ✅ Yes        | ❌ No (with timeout)| ✅ Yes          | Good for avoiding deadlocks    |
+
+---
+
+## 🧠 Best Practice
+
+> Prefer `lockInterruptibly()` or `tryLock()` in **responsive, interruption-sensitive, or deadlock-prone** systems.
+
+
+
