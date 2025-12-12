@@ -1,9 +1,14 @@
 
 ### tryLock()
    – Immediate response
+   - Returns true if lock is acquired, false if it’s not.
+   - Does not throw an exception.
 
 ### tryLock(long timeout, TimeUnit unit)
    – Wait for some time.
+   - Waits for the specified time to acquire the lock.
+   -  If the thread is interrupted while waiting, it throws InterruptedException.
+   -  If the time expires and lock is not acquired, it returns false, not an exception.
 
 Let’s say two users, virat and abd, try to withdraw money at the same time.
 
